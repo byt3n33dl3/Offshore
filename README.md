@@ -3,7 +3,7 @@
 # What is Social_X:
 * Social_X is a Social Engineering And Remote Access Trojan Tool.
 * You can generate png/jpg/docx/xml etc. looking exe files.
-* Social_X is a penetration testing tool.
+* Social_X is a penetration tool.
 
 # Path
 * All the files are generated in wsgi_sw/Upload_Server/images
