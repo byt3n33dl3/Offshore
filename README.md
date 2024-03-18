@@ -1,4 +1,4 @@
-# Trojan-PRJ V2.0:
+# Trojan-PRJ SX V1.0:
 ![A1](https://github.com/Sulaimannabdul/Trojan-PRJ/assets/151133481/d949e5a1-a537-4dbb-975e-2f7086c2116e)
 # What is Social_X:
 * Social_X is a Social Engineering And Remote Access Trojan Tool.
