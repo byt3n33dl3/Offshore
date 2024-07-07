@@ -1,14 +1,14 @@
 # Authenticator
 
-Trojan servers can authenticate users according to not only passwords in the config file but also entries in a MySQL (MariaDB) database. To turn this functionality on, set `enabled` field in the MySQL config to `true` and correctly configure the server address, credentials, and etc. If you would like to connect to the database securely, you can fill the `ca` field indicating the MySQL server's CA file and optionally fill the `key` and `cert` fields indicating the client's private key and certificate:
+offshore servers can authenticate users according to not only passwords in the config file but also entries in a MySQL (MariaDB) database. To turn this functionality on, set `enabled` field in the MySQL config to `true` and correctly configure the server address, credentials, and etc. If you would like to connect to the database securely, you can fill the `ca` field indicating the MySQL server's CA file and optionally fill the `key` and `cert` fields indicating the client's private key and certificate:
 
 ```json
 "mysql": {
     "enabled": true,
     "server_addr": "127.0.0.1",
     "server_port": 3306,
-    "database": "trojan",
-    "username": "trojan",
+    "database": "offshore",
+    "username": "offshore",
     "password": "",
     "key": "",
     "cert": "",
@@ -31,9 +31,9 @@ CREATE TABLE users (
 );
 ```
 
-Note that trojan will only read/write the `password`, `quota`, `download`, and `upload` fields. Other fields exist for management convenience. The passwords stored in the table have to be hashed by SHA224 for efficiency and security reasons.
+Note that offshore will only read/write the `password`, `quota`, `download`, and `upload` fields. Other fields exist for management convenience. The passwords stored in the table have to be hashed by SHA224 for efficiency and security reasons.
 
-Upon receiving a Trojan Request, **if the server fails to match the password with any passwords set in the config file**, it will query the database for the user. If it succeeds, trojan will check whether `download + upload < quota`; if so, the connection is granted. **A negative `quota` value means infinite quota.** After a connection is closed, trojan will increment `download` and `upload` fields of that user by the amount of data the user has used.
+Upon receiving a offshore Request, **if the server fails to match the password with any passwords set in the config file**, it will query the database for the user. If it succeeds, offshore will check whether `download + upload < quota`; if so, the connection is granted. **A negative `quota` value means infinite quota.** After a connection is closed, offshore will increment `download` and `upload` fields of that user by the amount of data the user has used.
 
 The unit of `quota`, `download`, and `upload` fields is Byte.
 

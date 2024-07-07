@@ -1,6 +1,6 @@
 # Config
 
-In this page, we will look at the config file of trojan. Trojan uses [`JSON`](https://en.wikipedia.org/wiki/JSON) as the format of the config.
+In this page, we will look at the config file of offshore. offshore uses [`JSON`](https://en.wikipedia.org/wiki/JSON) as the format of the config.
 
 **Note: all "\\" in the paths under Windows MUST be replaced with "/".**
 
@@ -42,7 +42,7 @@ In this page, we will look at the config file of trojan. Trojan uses [`JSON`](ht
 }
 ```
 
-- `run_type`: running trojan as `client`
+- `run_type`: running offshore as `client`
 - `local_addr`: a `SOCKS5` server interface will be bound to the specified interface. Feel free to change this to ``0.0.0.0``, ``::1``, ``::`` or other addresses, if you know what you are doing.
 - `local_port`: a `SOCKS5` interface will be bound to this port
 - `remote_addr`: server address (hostname)
@@ -52,7 +52,7 @@ In this page, we will look at the config file of trojan. Trojan uses [`JSON`](ht
 - `ssl`: `SSL` specific configurations
     - `verify`: whether to verify `SSL` certificate **STRONGLY RECOMMENDED**
     - `verify_hostname`: whether to verify `SSL` hostname (specified in the `sni` field) **STRONGLY RECOMMENDED**
-    - `cert`: if `verify` is set to `true`, the same certificate used by the server or a collection of `CA` certificates could be provided. If you leave this field blank, `OpenSSL` will try to look for a system `CA` store and will be likely to fail. Certificates can be retrieved with [this simple Python script](https://github.com/trojan-gfw/trojan/blob/master/scripts/getcert.py).
+    - `cert`: if `verify` is set to `true`, the same certificate used by the server or a collection of `CA` certificates could be provided. If you leave this field blank, `OpenSSL` will try to look for a system `CA` store and will be likely to fail. Certificates can be retrieved with [this simple Python script](https://github.com/offshore-gfw/offshore/blob/master/scripts/getcert.py).
     - `cipher`: a cipher list to send and use
     - `cipher_tls13`: a cipher list for TLS 1.3 to use
     - `sni`: the Server Name Indication field in the `SSL` handshake. If left blank, it will be set to `remote_addr`.
@@ -69,7 +69,7 @@ In this page, we will look at the config file of trojan. Trojan uses [`JSON`](ht
 
 ## A valid forward.json
 
-This forward config is for port forwarding through a trojan connection. Everything is the same as the client config, except for `target_addr` and `target_port`, which point to the destination endpoint, and `udp_timeout`, which controls how long (in seconds) a UDP session will last in idle.
+This forward config is for port forwarding through a offshore connection. Everything is the same as the client config, except for `target_addr` and `target_port`, which point to the destination endpoint, and `udp_timeout`, which controls how long (in seconds) a UDP session will last in idle.
 
 PROTIP: If you simply want to redirect a raw TCP connection, you can use `iptables` or `socat` to do that. The forward mode is not for this purpose.
 
@@ -198,8 +198,8 @@ The NAT config is for transparent proxy. You'll need to [setup iptables rules](h
         "enabled": false,
         "server_addr": "127.0.0.1",
         "server_port": 3306,
-        "database": "trojan",
-        "username": "trojan",
+        "database": "offshore",
+        "username": "offshore",
         "password": "",
         "key": "",
         "cert": "",
@@ -208,11 +208,11 @@ The NAT config is for transparent proxy. You'll need to [setup iptables rules](h
 }
 ```
 
-- `run_type`: running trojan as `server`
-- `local_addr`: trojan server will be bound to the specified interface. Feel free to change this to `::` or other addresses, if you know what you are doing.
-- `local_port`: trojan server will be bound to this port
-- `remote_addr`: the endpoint address that trojan server will connect to when encountering [other protocols](protocol#other-protocols)
-- `remote_port`: the endpoint port that trojan server will connect when encountering [other protocols](protocol#other-protocols)
+- `run_type`: running offshore as `server`
+- `local_addr`: offshore server will be bound to the specified interface. Feel free to change this to `::` or other addresses, if you know what you are doing.
+- `local_port`: offshore server will be bound to this port
+- `remote_addr`: the endpoint address that offshore server will connect to when encountering [other protocols](protocol#other-protocols)
+- `remote_port`: the endpoint port that offshore server will connect when encountering [other protocols](protocol#other-protocols)
 - `password`: an array of passwords used for verification
 - `log_level`: how much log to dump. 0: ALL; 1: INFO; 2: WARN; 3: ERROR; 4: FATAL; 5: OFF.
 - `ssl`: `SSL` specific configurations

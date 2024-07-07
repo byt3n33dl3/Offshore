@@ -1,21 +1,21 @@
 FROM alpine:3.11
 
-COPY . trojan
+COPY . offshore
 RUN apk add --no-cache --virtual .build-deps \
         build-base \
         cmake \
         boost-dev \
         openssl-dev \
         mariadb-connector-c-dev \
-    && (cd trojan && cmake . && make -j $(nproc) && strip -s trojan \
-    && mv trojan /usr/local/bin) \
-    && rm -rf trojan \
+    && (cd offshore && cmake . && make -j $(nproc) && strip -s offshore \
+    && mv offshore /usr/local/bin) \
+    && rm -rf offshore \
     && apk del .build-deps \
-    && apk add --no-cache --virtual .trojan-rundeps \
+    && apk add --no-cache --virtual .offshore-rundeps \
         libstdc++ \
         boost-system \
         boost-program_options \
         mariadb-connector-c
 
 WORKDIR /config
-CMD ["trojan", "config.json"]
+CMD ["offshore", "config.json"]

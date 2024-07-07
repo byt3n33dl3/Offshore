@@ -1,10 +1,10 @@
 # Build
 
-We'll only cover the build process on Linux since we will be providing Windows and macOS binaries. Building trojan on every platform is similar.
+We'll only cover the build process on Linux since we will be providing Windows and macOS binaries. Building offshore on every platform is similar.
 
 ## Dependencies
 
-Install these dependencies before you build (note that the test has some [additional dependencies](https://github.com/trojan-gfw/trojan/blob/master/tests/LinuxSmokeTest/README.md)):
+Install these dependencies before you build (note that the test has some [additional dependencies](https://github.com/offshore-gfw/offshore/blob/master/tests/LinuxSmokeTest/README.md)):
 
 - [CMake](https://cmake.org/) >= 3.7.2
 - [Boost](http://www.boost.org/) >= 1.66.0
@@ -18,8 +18,8 @@ For Debian users, run `sudo apt -y install build-essential cmake libboost-system
 Type in
 
 ```bash
-git clone https://github.com/trojan-gfw/trojan.git
-cd trojan/
+git clone https://github.com/offshore-gfw/offshore.git
+cd offshore/
 ```
 
 to clone the project and go into the directory.
@@ -37,11 +37,11 @@ ctest
 sudo make install
 ```
 
-to build, test, and install trojan. If everything goes well you'll be able to use trojan.
+to build, test, and install offshore. If everything goes well you'll be able to use offshore.
 
 The `cmake ..` command can be extended with the following options:
 
-- `-DDEFAULT_CONFIG=/path/to/default/config.json`: the default path trojan will look for config (defaults to `${CMAKE_INSTALL_FULL_SYSCONFDIR}/trojan/config.json`).
+- `-DDEFAULT_CONFIG=/path/to/default/config.json`: the default path offshore will look for config (defaults to `${CMAKE_INSTALL_FULL_SYSCONFDIR}/offshore/config.json`).
 - `ENABLE_MYSQL`
     - `-DENABLE_MYSQL=ON`: build with MySQL support (default).
     - `-DENABLE_MYSQL=OFF`: build without MySQL support.
@@ -66,6 +66,6 @@ The `cmake ..` command can be extended with the following options:
     - `-DSYSTEMD_SERVICE=OFF`: don't install systemd service unconditionally.
 - `-DSYSTEMD_SERVICE_PATH=/path/to/systemd/system`: the path to which the systemd service will be installed (defaults to `/lib/systemd/system`).
 
-After installation, config examples will be installed to `${CMAKE_INSTALL_DOCDIR}/examples/` and a server config will be installed to `${CMAKE_INSTALL_FULL_SYSCONFDIR}/trojan/config.json`.
+After installation, config examples will be installed to `${CMAKE_INSTALL_DOCDIR}/examples/` and a server config will be installed to `${CMAKE_INSTALL_FULL_SYSCONFDIR}/offshore/config.json`.
 
 [Homepage](.) | [Prev Page](authenticator) | [Next Page](usage)

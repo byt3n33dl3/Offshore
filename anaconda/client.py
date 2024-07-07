@@ -1,6 +1,6 @@
 BUFF_SIZE=4096 #4KB
 import socket,subprocess,os
-from ipPort import *
+from ipport import *
 import pyautogui
 colors = {'HEADER' : "\033[95m",
     'OKBLUE' : "\033[94m",

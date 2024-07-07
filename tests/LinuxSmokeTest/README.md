@@ -10,6 +10,6 @@
 ## Usage
 
 ```
-./basic.sh /path/to/trojan
-./fake-client.sh /path/to/trojan
+./basic.sh /path/to/offshore
+./fake-client.sh /path/to/offshore
 ```

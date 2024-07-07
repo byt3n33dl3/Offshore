@@ -7,15 +7,15 @@ stages:
     pool:
       vmImage: ubuntu-latest
     container:
-      image: trojangfw/centos-build:latest
+      image: offshoregfw/centos-build:latest
     steps:
     - script: |
         set -euo pipefail
-        echo 'target_link_libraries(trojan dl)' >> CMakeLists.txt
+        echo 'target_link_libraries(offshore dl)' >> CMakeLists.txt
         cmake -DMYSQL_INCLUDE_DIR=/usr/local/include/mariadb -DMYSQL_LIBRARY=/usr/local/lib/mariadb/libmysqlclient.a -DDEFAULT_CONFIG=config.json -DFORCE_TCP_FASTOPEN=ON -DBoost_USE_STATIC_LIBS=ON .
         make
-        strip -s trojan
-    - publish: $(System.DefaultWorkingDirectory)/trojan
+        strip -s offshore
+    - publish: $(System.DefaultWorkingDirectory)/offshore
       artifact: LinuxBinary
 
   - job: macOS
@@ -27,8 +27,8 @@ stages:
         brew install boost openssl@1.1
         cmake -DBoost_USE_STATIC_LIBS=ON -DOPENSSL_INCLUDE_DIR=/usr/local/opt/openssl@1.1/include -DOPENSSL_CRYPTO_LIBRARY=/usr/local/opt/openssl@1.1/lib/libcrypto.a -DOPENSSL_SSL_LIBRARY=/usr/local/opt/openssl@1.1/lib/libssl.a -DDEFAULT_CONFIG=config.json -DENABLE_MYSQL=OFF -DCMAKE_OSX_DEPLOYMENT_TARGET=10.13 .
         make
-        strip -SXTx trojan
-    - publish: $(System.DefaultWorkingDirectory)/trojan
+        strip -SXTx offshore
+    - publish: $(System.DefaultWorkingDirectory)/offshore
       artifact: macOSBinary
 
   - job: Windows
@@ -41,7 +41,7 @@ stages:
         powershell ".\\Win64OpenSSL-1_1_1h.exe /silent /sp- /suppressmsgboxes /DIR='C:\\Program Files\\OpenSSL-Win64'"
         cmake -DBoost_INCLUDE_DIR="${BOOST_ROOT_1_72_0}/include" -DBoost_USE_STATIC_LIBS=ON -DOPENSSL_ROOT_DIR='C:/Program Files/OpenSSL-Win64' -DOPENSSL_USE_STATIC_LIBS=ON -DENABLE_MYSQL=OFF .
         cmake --build . --config Release
-    - publish: $(System.DefaultWorkingDirectory)/Release/trojan.exe
+    - publish: $(System.DefaultWorkingDirectory)/Release/offshore.exe
       artifact: WindowsBinary
 
 - stage: Test
@@ -55,7 +55,7 @@ stages:
       artifact: LinuxBinary
     - script: |
         set -uo pipefail
-        BINARY="$PIPELINE_WORKSPACE/LinuxBinary/trojan"
+        BINARY="$PIPELINE_WORKSPACE/LinuxBinary/offshore"
         chmod +x "$BINARY"
         mkdir results
         cp -r "$(tests/LinuxSmokeTest/basic.sh "$BINARY")" results/basic
@@ -76,17 +76,17 @@ stages:
       artifact: LinuxBinary
     - script: |
         set -euo pipefail
-        BINARY="$PIPELINE_WORKSPACE/LinuxBinary/trojan"
+        BINARY="$PIPELINE_WORKSPACE/LinuxBinary/offshore"
         chmod +x "$BINARY"
-        mkdir trojan
-        cp "$BINARY" trojan/trojan
-        cp -r examples CONTRIBUTORS.md LICENSE README.md trojan
-        cp examples/server.json-example trojan/config.json
-        tar cf trojan-linux-amd64.tar trojan
-        xz trojan-linux-amd64.tar
+        mkdir offshore
+        cp "$BINARY" offshore/offshore
+        cp -r examples CONTRIBUTORS.md LICENSE README.md offshore
+        cp examples/server.json-example offshore/config.json
+        tar cf offshore-linux-amd64.tar offshore
+        xz offshore-linux-amd64.tar
       env:
         PIPELINE_WORKSPACE: $(Pipeline.Workspace)
-    - publish: $(System.DefaultWorkingDirectory)/trojan-linux-amd64.tar.xz
+    - publish: $(System.DefaultWorkingDirectory)/offshore-linux-amd64.tar.xz
       artifact: LinuxRelease
 
   - job: macOS
@@ -97,24 +97,24 @@ stages:
       artifact: macOSBinary
     - script: |
         set -euo pipefail
-        BINARY="$PIPELINE_WORKSPACE/macOSBinary/trojan"
+        BINARY="$PIPELINE_WORKSPACE/macOSBinary/offshore"
         chmod +x "$BINARY"
-        mkdir trojan
-        cp "$BINARY" trojan/trojan
-        cp -r examples CONTRIBUTORS.md LICENSE README.md trojan
-        cp examples/client.json-example trojan/config.json
-        rm trojan/examples/nat.json-example trojan/examples/trojan.service-example
-        cat > trojan/start.command <<EOF
+        mkdir offshore
+        cp "$BINARY" offshore/offshore
+        cp -r examples CONTRIBUTORS.md LICENSE README.md offshore
+        cp examples/client.json-example offshore/config.json
+        rm offshore/examples/nat.json-example offshore/examples/offshore.service-example
+        cat > offshore/start.command <<EOF
         #!/bin/sh
 
         cd "\$(dirname "\$0")"
-        ./trojan
+        ./offshore
         EOF
-        chmod +x trojan/start.command
-        zip -r9 trojan-macos.zip trojan
+        chmod +x offshore/start.command
+        zip -r9 offshore-macos.zip offshore
       env:
         PIPELINE_WORKSPACE: $(Pipeline.Workspace)
-    - publish: $(System.DefaultWorkingDirectory)/trojan-macos.zip
+    - publish: $(System.DefaultWorkingDirectory)/offshore-macos.zip
       artifact: macOSRelease
 
   - job: Windows
@@ -125,14 +125,14 @@ stages:
       artifact: WindowsBinary
     - bash: |
         set -euo pipefail
-        BINARY="$PIPELINE_WORKSPACE/WindowsBinary/trojan.exe"
-        mkdir trojan
-        cp "$BINARY" trojan/trojan.exe
-        cp -r examples CONTRIBUTORS.md LICENSE README.md trojan
-        cp examples/client.json-example trojan/config.json
-        rm trojan/examples/nat.json-example trojan/examples/trojan.service-example
-        7z a -mx=9 trojan-win.zip trojan
+        BINARY="$PIPELINE_WORKSPACE/WindowsBinary/offshore.exe"
+        mkdir offshore
+        cp "$BINARY" offshore/offshore.exe
+        cp -r examples CONTRIBUTORS.md LICENSE README.md offshore
+        cp examples/client.json-example offshore/config.json
+        rm offshore/examples/nat.json-example offshore/examples/offshore.service-example
+        7z a -mx=9 offshore-win.zip offshore
       env:
         PIPELINE_WORKSPACE: $(Pipeline.Workspace)
-    - publish: $(System.DefaultWorkingDirectory)/trojan-win.zip
+    - publish: $(System.DefaultWorkingDirectory)/offshore-win.zip
       artifact: WindowsRelease
